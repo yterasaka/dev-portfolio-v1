@@ -105,6 +105,12 @@ export type Milestone = {
   duration?: Duration
 }
 
+export type Duration = {
+  _type: 'duration'
+  start?: string
+  end?: string
+}
+
 export type Header = {
   _id: string
   _type: 'header'
@@ -148,7 +154,7 @@ export type Project = {
   _rev: string
   title?: string
   slug?: Slug
-  overview?: Array<{
+  description?: Array<{
     children?: Array<{
       marks?: Array<string>
       text?: string
@@ -174,54 +180,11 @@ export type Project = {
     crop?: SanityImageCrop
     _type: 'image'
   }
-  duration?: Duration
   client?: string
   site?: string
+  role?: string
+  type?: string
   tags?: Array<string>
-  description?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>
-          text?: string
-          _type: 'span'
-          _key: string
-        }>
-        style?: 'normal'
-        listItem?: 'bullet' | 'number'
-        markDefs?: Array<{
-          href?: string
-          _type: 'link'
-          _key: string
-        }>
-        level?: number
-        _type: 'block'
-        _key: string
-      }
-    | ({
-        _key: string
-      } & Timeline)
-    | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        caption?: string
-        alt?: string
-        _type: 'image'
-        _key: string
-      }
-  >
-}
-
-export type Duration = {
-  _type: 'duration'
-  start?: string
-  end?: string
 }
 
 export type Page = {
@@ -449,9 +412,9 @@ export type AllSanitySchemaTypes =
   | Geopoint
   | Timeline
   | Milestone
+  | Duration
   | Header
   | Project
-  | Duration
   | Page
   | Slug
   | Settings
@@ -502,20 +465,7 @@ export type HomePageQueryResult = {
       crop?: SanityImageCrop
       _type: 'image'
     } | null
-    overview: Array<{
-      children?: Array<{
-        marks?: Array<string>
-        text?: string
-        _type: 'span'
-        _key: string
-      }>
-      style?: 'normal'
-      listItem?: never
-      markDefs?: null
-      level?: number
-      _type: 'block'
-      _key: string
-    }> | null
+    overview: null
     slug: string | null
     tags: Array<string> | null
     title: string | null
@@ -583,7 +533,7 @@ export type PagesBySlugQueryResult = {
   slug: string | null
 } | null
 // Variable: projectBySlugQuery
-// Query: *[_type == "project" && slug.current == $slug][0] {    _id,    _type,    client,    coverImage,    description,    duration,    overview,    site,    "slug": slug.current,    tags,    title,  }
+// Query: *[_type == "project" && slug.current == $slug][0] {    _id,    _type,    client,    coverImage,    description,    duration,    overview,    role,    site,    "slug": slug.current,    tags,    title,    type  }
 export type ProjectBySlugQueryResult = {
   _id: string
   _type: 'project'
@@ -600,46 +550,7 @@ export type ProjectBySlugQueryResult = {
     crop?: SanityImageCrop
     _type: 'image'
   } | null
-  description: Array<
-    | ({
-        _key: string
-      } & Timeline)
-    | {
-        children?: Array<{
-          marks?: Array<string>
-          text?: string
-          _type: 'span'
-          _key: string
-        }>
-        style?: 'normal'
-        listItem?: 'bullet' | 'number'
-        markDefs?: Array<{
-          href?: string
-          _type: 'link'
-          _key: string
-        }>
-        level?: number
-        _type: 'block'
-        _key: string
-      }
-    | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        caption?: string
-        alt?: string
-        _type: 'image'
-        _key: string
-      }
-  > | null
-  duration: Duration | null
-  overview: Array<{
+  description: Array<{
     children?: Array<{
       marks?: Array<string>
       text?: string
@@ -653,10 +564,14 @@ export type ProjectBySlugQueryResult = {
     _type: 'block'
     _key: string
   }> | null
+  duration: null
+  overview: null
+  role: string | null
   site: string | null
   slug: string | null
   tags: Array<string> | null
   title: string | null
+  type: string | null
 } | null
 // Variable: settingsQuery
 // Query: *[_type == "settings"][0]{    _id,    _type,    footer,    menuItems[]{      _key,      ...@->{        _type,        "slug": slug.current,        title      }    },    ogImage,  }
@@ -754,7 +669,7 @@ declare module '@sanity/client' {
   interface SanityQueries {
     '\n  *[_type == "home"][0]{\n    _id,\n    _type,\n    overview,\n    showcaseProjects[]{\n      _key,\n      ...@->{\n        _id,\n        _type,\n        coverImage,\n        overview,\n        "slug": slug.current,\n        tags,\n        title,\n      }\n    },\n    title,\n  }\n': HomePageQueryResult
     '\n  *[_type == "page" && slug.current == $slug][0] {\n    _id,\n    _type,\n    body,\n    overview,\n    title,\n    "slug": slug.current,\n  }\n': PagesBySlugQueryResult
-    '\n  *[_type == "project" && slug.current == $slug][0] {\n    _id,\n    _type,\n    client,\n    coverImage,\n    description,\n    duration,\n    overview,\n    site,\n    "slug": slug.current,\n    tags,\n    title,\n  }\n': ProjectBySlugQueryResult
+    '\n  *[_type == "project" && slug.current == $slug][0] {\n    _id,\n    _type,\n    client,\n    coverImage,\n    description,\n    duration,\n    overview,\n    role,\n    site,\n    "slug": slug.current,\n    tags,\n    title,\n    type\n  }\n': ProjectBySlugQueryResult
     '\n  *[_type == "settings"][0]{\n    _id,\n    _type,\n    footer,\n    menuItems[]{\n      _key,\n      ...@->{\n        _type,\n        "slug": slug.current,\n        title\n      }\n    },\n    ogImage,\n  }\n': SettingsQueryResult
     '\n  *[_type == $type && defined(slug.current)]{"slug": slug.current}\n': SlugsByTypeQueryResult
     '\n  *[_type == "header"][0]{\n    _id,\n    _type,\n    title,\n    subTitle,\n    menuItems[]{\n      _key,\n      title,\n      link->{\n        _type,\n        "slug": slug.current,\n        title\n      },\n      externalLink\n    }\n  }\n': HeaderQueryResult

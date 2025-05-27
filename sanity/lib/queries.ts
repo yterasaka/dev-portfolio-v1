@@ -41,10 +41,12 @@ export const projectBySlugQuery = defineQuery(`
     description,
     duration,
     overview,
+    role,
     site,
     "slug": slug.current,
     tags,
     title,
+    type
   }
 `)
 

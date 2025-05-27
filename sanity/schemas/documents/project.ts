@@ -1,4 +1,4 @@
-import {DocumentIcon, ImageIcon} from '@sanity/icons'
+import {DocumentIcon} from '@sanity/icons'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
@@ -28,9 +28,9 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'overview',
+      name: 'description',
       description: 'Used both for the <meta> description tag for SEO, and project subheader.',
-      title: 'Overview',
+      title: 'Description',
       type: 'array',
       of: [
         // Paragraphs
@@ -67,11 +67,6 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'duration',
-      title: 'Duration',
-      type: 'duration',
-    }),
-    defineField({
       name: 'client',
       title: 'Client',
       type: 'string',
@@ -82,6 +77,16 @@ export default defineType({
       type: 'url',
     }),
     defineField({
+      name: 'role',
+      title: 'Role',
+      type: 'string',
+    }),
+    defineField({
+      name: 'type',
+      title: 'Type',
+      type: 'string',
+    }),
+    defineField({
       name: 'tags',
       title: 'Tags',
       type: 'array',
@@ -90,65 +95,15 @@ export default defineType({
         layout: 'tags',
       },
     }),
-    defineField({
-      name: 'description',
-      title: 'Project Description',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          marks: {
-            annotations: [
-              {
-                name: 'link',
-                type: 'object',
-                title: 'Link',
-                fields: [
-                  {
-                    name: 'href',
-                    type: 'url',
-                    title: 'Url',
-                  },
-                ],
-              },
-            ],
-          },
-          styles: [],
-        }),
-        // Custom blocks
-        defineArrayMember({
-          name: 'timeline',
-          type: 'timeline',
-        }),
-        defineField({
-          type: 'image',
-          icon: ImageIcon,
-          name: 'image',
-          title: 'Image',
-          options: {
-            hotspot: true,
-          },
-          preview: {
-            select: {
-              media: 'asset',
-              title: 'caption',
-            },
-          },
-          fields: [
-            defineField({
-              title: 'Caption',
-              name: 'caption',
-              type: 'string',
-            }),
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alt text',
-              description: 'Alternative text for screenreaders. Falls back on caption if not set',
-            }),
-          ],
-        }),
-      ],
-    }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+    prepare({title}) {
+      return {
+        title,
+      }
+    },
+  },
 })
