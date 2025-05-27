@@ -11,6 +11,7 @@ import project from '@/sanity/schemas/documents/project'
 import duration from '@/sanity/schemas/objects/duration'
 import milestone from '@/sanity/schemas/objects/milestone'
 import timeline from '@/sanity/schemas/objects/timeline'
+import header from '@/sanity/schemas/singletons/header'
 import home from '@/sanity/schemas/singletons/home'
 import settings from '@/sanity/schemas/singletons/settings'
 import {visionTool} from '@sanity/vision'
@@ -33,6 +34,7 @@ export default defineConfig({
       // Singletons
       home,
       settings,
+      header,
       // Documents
       duration,
       page,
@@ -44,7 +46,7 @@ export default defineConfig({
   },
   plugins: [
     structureTool({
-      structure: pageStructure([home, settings]),
+      structure: pageStructure([home, settings, header]),
     }),
     presentationTool({
       resolve,

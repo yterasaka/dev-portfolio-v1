@@ -105,6 +105,41 @@ export type Milestone = {
   duration?: Duration
 }
 
+export type Header = {
+  _id: string
+  _type: 'header'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  subTitle?: string
+  menuItems?: Array<{
+    title?: string
+    link?:
+      | {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'home'
+        }
+      | {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'page'
+        }
+      | {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'project'
+        }
+    externalLink?: string
+    _type: 'menuItem'
+    _key: string
+  }>
+}
+
 export type Project = {
   _id: string
   _type: 'project'
@@ -183,6 +218,12 @@ export type Project = {
   >
 }
 
+export type Duration = {
+  _type: 'duration'
+  start?: string
+  end?: string
+}
+
 export type Page = {
   _id: string
   _type: 'page'
@@ -249,12 +290,6 @@ export type Slug = {
   _type: 'slug'
   current?: string
   source?: string
-}
-
-export type Duration = {
-  _type: 'duration'
-  start?: string
-  end?: string
 }
 
 export type Settings = {
@@ -414,10 +449,11 @@ export type AllSanitySchemaTypes =
   | Geopoint
   | Timeline
   | Milestone
+  | Header
   | Project
+  | Duration
   | Page
   | Slug
-  | Duration
   | Settings
   | SanityImageCrop
   | SanityImageHotspot
