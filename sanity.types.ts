@@ -719,6 +719,36 @@ export type SettingsQueryResult = {
 export type SlugsByTypeQueryResult = Array<{
   slug: string | null
 }>
+// Variable: headerQuery
+// Query: *[_type == "header"][0]{    _id,    _type,    title,    subTitle,    menuItems[]{      _key,      title,      link->{        _type,        "slug": slug.current,        title      },      externalLink    }  }
+export type HeaderQueryResult = {
+  _id: string
+  _type: 'header'
+  title: string | null
+  subTitle: string | null
+  menuItems: Array<{
+    _key: string
+    title: string | null
+    link:
+      | {
+          _type: 'home'
+          slug: null
+          title: string | null
+        }
+      | {
+          _type: 'page'
+          slug: string | null
+          title: string | null
+        }
+      | {
+          _type: 'project'
+          slug: string | null
+          title: string | null
+        }
+      | null
+    externalLink: string | null
+  }> | null
+} | null
 
 declare module '@sanity/client' {
   interface SanityQueries {
@@ -727,5 +757,6 @@ declare module '@sanity/client' {
     '\n  *[_type == "project" && slug.current == $slug][0] {\n    _id,\n    _type,\n    client,\n    coverImage,\n    description,\n    duration,\n    overview,\n    site,\n    "slug": slug.current,\n    tags,\n    title,\n  }\n': ProjectBySlugQueryResult
     '\n  *[_type == "settings"][0]{\n    _id,\n    _type,\n    footer,\n    menuItems[]{\n      _key,\n      ...@->{\n        _type,\n        "slug": slug.current,\n        title\n      }\n    },\n    ogImage,\n  }\n': SettingsQueryResult
     '\n  *[_type == $type && defined(slug.current)]{"slug": slug.current}\n': SlugsByTypeQueryResult
+    '\n  *[_type == "header"][0]{\n    _id,\n    _type,\n    title,\n    subTitle,\n    menuItems[]{\n      _key,\n      title,\n      link->{\n        _type,\n        "slug": slug.current,\n        title\n      },\n      externalLink\n    }\n  }\n': HeaderQueryResult
   }
 }

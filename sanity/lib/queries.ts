@@ -68,3 +68,22 @@ export const settingsQuery = defineQuery(`
 export const slugsByTypeQuery = defineQuery(`
   *[_type == $type && defined(slug.current)]{"slug": slug.current}
 `)
+
+export const headerQuery = defineQuery(`
+  *[_type == "header"][0]{
+    _id,
+    _type,
+    title,
+    subTitle,
+    menuItems[]{
+      _key,
+      title,
+      link->{
+        _type,
+        "slug": slug.current,
+        title
+      },
+      externalLink
+    }
+  }
+`)
