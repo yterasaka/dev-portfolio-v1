@@ -96,6 +96,7 @@ export type Milestone = {
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
     }
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     _type: 'image'
@@ -133,6 +134,7 @@ export type Project = {
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
     }
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     _type: 'image'
@@ -170,6 +172,7 @@ export type Project = {
           _weak?: boolean
           [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
         }
+        media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
         caption?: string
@@ -231,6 +234,7 @@ export type Page = {
           _weak?: boolean
           [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
         }
+        media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
         caption?: string
@@ -304,6 +308,7 @@ export type Settings = {
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
     }
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     _type: 'image'
@@ -456,6 +461,7 @@ export type HomePageQueryResult = {
         _weak?: boolean
         [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
       }
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       _type: 'image'
@@ -514,6 +520,7 @@ export type PagesBySlugQueryResult = {
           _weak?: boolean
           [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
         }
+        media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
         caption?: string
@@ -552,6 +559,7 @@ export type ProjectBySlugQueryResult = {
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
     }
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     _type: 'image'
@@ -585,6 +593,7 @@ export type ProjectBySlugQueryResult = {
           _weak?: boolean
           [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
         }
+        media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
         caption?: string
@@ -663,6 +672,7 @@ export type SettingsQueryResult = {
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
     }
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     _type: 'image'
