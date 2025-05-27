@@ -25,10 +25,14 @@ export const pagesBySlugQuery = defineQuery(`
   *[_type == "page" && slug.current == $slug][0] {
     _id,
     _type,
-    body,
     overview,
     title,
     "slug": slug.current,
+    contentSections[]{
+      _key,
+      sectionTitle,
+      content
+    }
   }
 `)
 

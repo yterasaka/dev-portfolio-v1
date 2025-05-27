@@ -51,66 +51,96 @@ export default defineType({
       ],
       validation: (rule) => rule.max(155).required(),
     }),
+
     defineField({
+      name: 'contentSections',
+      title: 'Content Sections',
       type: 'array',
-      name: 'body',
-      title: 'Body',
-      description:
-        "This is where you can write the page's content. Including custom blocks like timelines for more a more visual display of information.",
       of: [
-        // Paragraphs
         defineArrayMember({
-          type: 'block',
-          marks: {
-            annotations: [
-              {
-                name: 'link',
-                type: 'object',
-                title: 'Link',
-                fields: [
-                  {
-                    name: 'href',
-                    type: 'url',
-                    title: 'Url',
-                  },
-                ],
-              },
-            ],
-          },
-          styles: [],
-        }),
-        // Custom blocks
-        defineArrayMember({
-          name: 'timeline',
-          type: 'timeline',
-        }),
-        defineField({
-          type: 'image',
-          icon: ImageIcon,
-          name: 'image',
-          title: 'Image',
-          options: {
-            hotspot: true,
-          },
-          preview: {
-            select: {
-              media: 'asset',
-              title: 'caption',
-            },
-          },
+          type: 'object',
+          name: 'section',
+          title: 'Section',
           fields: [
             defineField({
-              title: 'Caption',
-              name: 'caption',
+              name: 'sectionTitle',
+              title: 'Section Title',
               type: 'string',
+              validation: (rule) => rule.required(),
             }),
             defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alt text',
-              description: 'Alternative text for screenreaders. Falls back on caption if not set',
+              name: 'content',
+              title: 'Section Content',
+              type: 'array',
+              of: [
+                defineArrayMember({
+                  type: 'block',
+                  marks: {
+                    decorators: [
+                      {title: 'Strong', value: 'strong'},
+                      {title: 'Emphasis', value: 'em'},
+                      {title: 'Code', value: 'code'},
+                      {title: 'Underline', value: 'underline'},
+                      {title: 'Strike', value: 'strike-through'},
+                    ],
+                    annotations: [
+                      {
+                        name: 'link',
+                        type: 'object',
+                        title: 'Link',
+                        fields: [
+                          {
+                            name: 'href',
+                            type: 'url',
+                            title: 'URL',
+                          },
+                          {
+                            title: 'Open in new tab',
+                            name: 'blank',
+                            type: 'boolean',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  styles: [
+                    {title: 'Normal', value: 'normal'},
+                    {title: 'Heading 2', value: 'h2'},
+                    {title: 'Heading 3', value: 'h3'},
+                    {title: 'Heading 4', value: 'h4'},
+                    {title: 'Quote', value: 'blockquote'},
+                  ],
+                  lists: [
+                    {title: 'Bullet', value: 'bullet'},
+                    {title: 'Numbered', value: 'number'},
+                  ],
+                }),
+                defineArrayMember({
+                  type: 'image',
+                  options: {hotspot: true},
+                  fields: [
+                    defineField({
+                      name: 'alt',
+                      type: 'string',
+                      title: 'Alternative text',
+                      description: 'Important for SEO and accessibility',
+                    }),
+                  ],
+                }),
+              ],
             }),
           ],
+          preview: {
+            select: {
+              title: 'sectionTitle',
+            },
+            prepare({title}) {
+              return {
+                title: title || 'Untitled Section',
+                subtitle: 'Content Section',
+              }
+            },
+          },
         }),
       ],
     }),
