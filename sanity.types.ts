@@ -105,47 +105,6 @@ export type Milestone = {
   duration?: Duration
 }
 
-export type Duration = {
-  _type: 'duration'
-  start?: string
-  end?: string
-}
-
-export type Header = {
-  _id: string
-  _type: 'header'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-  subTitle?: string
-  menuItems?: Array<{
-    title?: string
-    link?:
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'home'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'page'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'project'
-        }
-    externalLink?: string
-    _type: 'menuItem'
-    _key: string
-  }>
-}
-
 export type Project = {
   _id: string
   _type: 'project'
@@ -251,10 +210,10 @@ export type Page = {
   }>
 }
 
-export type Slug = {
-  _type: 'slug'
-  current?: string
-  source?: string
+export type Duration = {
+  _type: 'duration'
+  start?: string
+  end?: string
 }
 
 export type Settings = {
@@ -263,6 +222,8 @@ export type Settings = {
   _createdAt: string
   _updatedAt: string
   _rev: string
+  headerTitle?: string
+  headerSubTitle?: string
   menuItems?: Array<
     | {
         _ref: string
@@ -406,6 +367,21 @@ export type Home = {
   }>
 }
 
+export type MediaTag = {
+  _id: string
+  _type: 'media.tag'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: Slug
+}
+
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
+}
+
 export type AllSanitySchemaTypes =
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -414,11 +390,9 @@ export type AllSanitySchemaTypes =
   | Geopoint
   | Timeline
   | Milestone
-  | Duration
-  | Header
   | Project
   | Page
-  | Slug
+  | Duration
   | Settings
   | SanityImageCrop
   | SanityImageHotspot
@@ -426,6 +400,8 @@ export type AllSanitySchemaTypes =
   | SanityAssetSourceData
   | SanityImageMetadata
   | Home
+  | MediaTag
+  | Slug
 export declare const internalGroqTypeReferenceTo: unique symbol
 // Source: ./sanity/lib/queries.ts
 // Variable: homePageQuery
@@ -577,7 +553,7 @@ export type ProjectBySlugQueryResult = {
   type: string | null
 } | null
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]{    _id,    _type,    footer,    menuItems[]{      _key,      ...@->{        _type,        "slug": slug.current,        title      }    },    ogImage,  }
+// Query: *[_type == "settings"][0]{    _id,    _type,    footer,    headerTitle,    headerSubTitle,    menuItems[]{      _key,      ...@->{        _type,        "slug": slug.current,        title      }    },    ogImage,  }
 export type SettingsQueryResult = {
   _id: string
   _type: 'settings'
@@ -599,6 +575,8 @@ export type SettingsQueryResult = {
     _type: 'block'
     _key: string
   }> | null
+  headerTitle: string | null
+  headerSubTitle: string | null
   menuItems: Array<
     | {
         _key: null
@@ -637,44 +615,13 @@ export type SettingsQueryResult = {
 export type SlugsByTypeQueryResult = Array<{
   slug: string | null
 }>
-// Variable: headerQuery
-// Query: *[_type == "header"][0]{    _id,    _type,    title,    subTitle,    menuItems[]{      _key,      title,      link->{        _type,        "slug": slug.current,        title      },      externalLink    }  }
-export type HeaderQueryResult = {
-  _id: string
-  _type: 'header'
-  title: string | null
-  subTitle: string | null
-  menuItems: Array<{
-    _key: string
-    title: string | null
-    link:
-      | {
-          _type: 'home'
-          slug: null
-          title: string | null
-        }
-      | {
-          _type: 'page'
-          slug: string | null
-          title: string | null
-        }
-      | {
-          _type: 'project'
-          slug: string | null
-          title: string | null
-        }
-      | null
-    externalLink: string | null
-  }> | null
-} | null
 
 declare module '@sanity/client' {
   interface SanityQueries {
     '\n  *[_type == "home"][0]{\n    _id,\n    _type,\n    overview,\n    showcaseProjects[]{\n      _key,\n      ...@->{\n        _id,\n        _type,\n        coverImage,\n        overview,\n        "slug": slug.current,\n        tags,\n        title,\n      }\n    },\n    title,\n  }\n': HomePageQueryResult
     '\n  *[_type == "page" && slug.current == $slug][0] {\n    _id,\n    _type,\n    overview,\n    title,\n    "slug": slug.current,\n    contentSections[]{\n      _key,\n      sectionTitle,\n      content\n    }\n  }\n': PagesBySlugQueryResult
     '\n  *[_type == "project" && slug.current == $slug][0] {\n    _id,\n    _type,\n    client,\n    coverImage,\n    description,\n    duration,\n    overview,\n    role,\n    site,\n    "slug": slug.current,\n    tags,\n    title,\n    type\n  }\n': ProjectBySlugQueryResult
-    '\n  *[_type == "settings"][0]{\n    _id,\n    _type,\n    footer,\n    menuItems[]{\n      _key,\n      ...@->{\n        _type,\n        "slug": slug.current,\n        title\n      }\n    },\n    ogImage,\n  }\n': SettingsQueryResult
+    '\n  *[_type == "settings"][0]{\n    _id,\n    _type,\n    footer,\n    headerTitle,\n    headerSubTitle,\n    menuItems[]{\n      _key,\n      ...@->{\n        _type,\n        "slug": slug.current,\n        title\n      }\n    },\n    ogImage,\n  }\n': SettingsQueryResult
     '\n  *[_type == $type && defined(slug.current)]{"slug": slug.current}\n': SlugsByTypeQueryResult
-    '\n  *[_type == "header"][0]{\n    _id,\n    _type,\n    title,\n    subTitle,\n    menuItems[]{\n      _key,\n      title,\n      link->{\n        _type,\n        "slug": slug.current,\n        title\n      },\n      externalLink\n    }\n  }\n': HeaderQueryResult
   }
 }

@@ -1,4 +1,3 @@
-import {Header} from '@/components/Header'
 import {OptimisticSortOrder} from '@/components/OptimisticSortOrder'
 import {ProjectListItem} from '@/components/ProjectListItem'
 import type {HomePageQueryResult} from '@/sanity.types'
@@ -27,19 +26,8 @@ export async function HomePage({data}: HomePageProps) {
 
   return (
     <div className="space-y-20">
-      {/* Header */}
-      {title && (
-        <Header
-          id={data?._id || null}
-          type={data?._type || null}
-          path={['overview']}
-          centered
-          title={title}
-          description={overview}
-        />
-      )}
       {/* Showcase projects */}
-      <div className="mx-auto max-w-[100rem] rounded-md border">
+      <div className="">
         <OptimisticSortOrder id={data?._id} path={'showcaseProjects'}>
           {showcaseProjects &&
             showcaseProjects.length > 0 &&

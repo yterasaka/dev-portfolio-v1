@@ -1,5 +1,3 @@
-import {CustomPortableText} from '@/components/CustomPortableText'
-import {Header} from '@/components/Header'
 import {sanityFetch} from '@/sanity/lib/live'
 import {pagesBySlugQuery, slugsByTypeQuery} from '@/sanity/lib/queries'
 import type {Metadata, ResolvingMetadata} from 'next'
@@ -45,32 +43,5 @@ export default async function PageSlugRoute({params}: Props) {
     notFound()
   }
 
-  const {body, overview, title} = data ?? {}
-
-  return (
-    <div>
-      <div className="mb-14">
-        {/* Header */}
-        <Header
-          id={data?._id || null}
-          type={data?._type || null}
-          path={['overview']}
-          title={title || (data?._id ? 'Untitled' : '404 Page Not Found')}
-          description={overview}
-        />
-
-        {/* Body */}
-        {body && (
-          <CustomPortableText
-            id={data?._id || null}
-            type={data?._type || null}
-            path={['body']}
-            paragraphClasses="font-serif max-w-3xl text-gray-600 text-xl"
-            value={body as unknown as PortableTextBlock[]}
-          />
-        )}
-      </div>
-      <div className="absolute left-0 w-screen border-t" />
-    </div>
-  )
+  return <div></div>
 }

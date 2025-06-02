@@ -18,11 +18,18 @@ export function Navbar(props: NavbarProps) {
           type: data._type,
         })
       : null
+
+  console.log('Navbar data', data)
+
   return (
     <header
-      className="sticky top-0 z-10 flex flex-wrap items-center gap-x-5 bg-white/80 px-4 py-4 backdrop-blur md:px-16 md:py-5 lg:px-32"
+      className="sticky top-0 z-10 flex items-center justify-between px-4 md:px-5 py-4 uppercase font-bold"
       data-sanity={dataAttribute?.('menuItems')}
     >
+      <Link href="/" className="" data-sanity={dataAttribute?.('title')}>
+        {data?.headerTitle}
+      </Link>
+      <div className="hidden md:block">{data?.headerSubTitle}</div>
       <OptimisticSortOrder id={data?._id!} path="menuItems">
         {data?.menuItems?.map((menuItem) => {
           const href = resolveHref(menuItem?._type, menuItem?.slug)
@@ -32,9 +39,7 @@ export function Navbar(props: NavbarProps) {
           return (
             <Link
               key={menuItem._key}
-              className={`text-lg hover:text-black md:text-xl ${
-                menuItem?._type === 'home' ? 'font-extrabold text-black' : 'text-gray-600'
-              }`}
+              className=""
               data-sanity={dataAttribute?.([
                 'menuItems',
                 {_key: menuItem._key as unknown as string},
