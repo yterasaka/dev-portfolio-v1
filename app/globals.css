@@ -27,3 +27,15 @@ canvas {
 .r3f-scroll-container::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
+
+/* ScrollControlsコンポーネントのスクロールバーを非表示 */
+.r3f-scroll-container,
+[data-drei-scroll-controls] {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.r3f-scroll-container::-webkit-scrollbar,
+[data-drei-scroll-controls]::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

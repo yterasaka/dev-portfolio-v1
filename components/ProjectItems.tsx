@@ -152,6 +152,7 @@ interface ProjectItemsProps {
 export default function ProjectItems({projects, w = 0.7, gap = 0.15}: ProjectItemsProps) {
   const {width} = useThree((state) => state.viewport)
   const xW = w + gap
+  const pages = (width - xW + projects.length * xW) / width
 
   // 状態を更新
   state.projects = projects
@@ -160,8 +161,11 @@ export default function ProjectItems({projects, w = 0.7, gap = 0.15}: ProjectIte
     <ScrollControls
       horizontal
       damping={0.1}
-      style={{overflow: 'hidden'}}
-      pages={(width - xW + projects.length * xW) / width}
+      pages={pages}
+      style={{
+        scrollbarWidth: 'none', // Firefox
+        msOverflowStyle: 'none', // IE and Edge
+      }}
     >
       <Minimap />
       <Scroll>
