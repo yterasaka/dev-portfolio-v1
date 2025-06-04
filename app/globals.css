@@ -13,18 +13,17 @@ body {
   color: var(--foreground);
 }
 
-/* スクロールバーを非表示にする */
-.scrollbar-hide {
-  -ms-overflow-style: none; /* Internet Explorer, Edge */
+/* R3F Canvas のスクロールバーを非表示 */
+canvas {
+  overflow: hidden !important;
+}
+
+/* または、より具体的に ScrollControls のスクロールバーを非表示 */
+.r3f-scroll-container {
   scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
-.scrollbar-hide::-webkit-scrollbar {
+.r3f-scroll-container::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
-}
-
-/* スムーズなドラッグスクロール用のスタイル */
-.scrollbar-hide {
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch; /* iOS Safari */
 }
