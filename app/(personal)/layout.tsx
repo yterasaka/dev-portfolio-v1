@@ -46,7 +46,7 @@ export default async function IndexRoute({children}: {children: React.ReactNode}
     <>
       <div className="flex min-h-screen flex-col">
         <Navbar data={data} />
-        <div className="mt-20 flex-grow px-4 md:px-16 lg:px-32">{children}</div>
+        <div className="flex-grow h-full">{children}</div>
       </div>
       <Toaster />
       <SanityLive onError={handleError} />

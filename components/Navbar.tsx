@@ -23,34 +23,36 @@ export function Navbar(props: NavbarProps) {
 
   return (
     <header
-      className="sticky top-0 z-10 flex items-center justify-between px-4 md:px-5 py-4 uppercase font-bold"
+      className="sticky top-0 z-10 flex items-center justify-between px-4 md:px-5 py-4 uppercase font-bold h-[64px]"
       data-sanity={dataAttribute?.('menuItems')}
     >
-      <Link href="/" className="" data-sanity={dataAttribute?.('title')}>
+      <Link href="/" className="flex-1" data-sanity={dataAttribute?.('title')}>
         {data?.headerTitle}
       </Link>
-      <div className="hidden md:block">{data?.headerSubTitle}</div>
-      <OptimisticSortOrder id={data?._id!} path="menuItems">
-        {data?.menuItems?.map((menuItem) => {
-          const href = resolveHref(menuItem?._type, menuItem?.slug)
-          if (!href) {
-            return null
-          }
-          return (
-            <Link
-              key={menuItem._key}
-              className=""
-              data-sanity={dataAttribute?.([
-                'menuItems',
-                {_key: menuItem._key as unknown as string},
-              ])}
-              href={href}
-            >
-              {stegaClean(menuItem.title)}
-            </Link>
-          )
-        })}
-      </OptimisticSortOrder>
+      <div className="hidden md:block flex-1 text-center">{data?.headerSubTitle}</div>
+      <div className="flex-1 text-right">
+        <OptimisticSortOrder id={data?._id!} path="menuItems">
+          {data?.menuItems?.map((menuItem) => {
+            const href = resolveHref(menuItem?._type, menuItem?.slug)
+            if (!href) {
+              return null
+            }
+            return (
+              <Link
+                key={menuItem._key}
+                className=""
+                data-sanity={dataAttribute?.([
+                  'menuItems',
+                  {_key: menuItem._key as unknown as string},
+                ])}
+                href={href}
+              >
+                {stegaClean(menuItem.title)}
+              </Link>
+            )
+          })}
+        </OptimisticSortOrder>
+      </div>
     </header>
   )
 }

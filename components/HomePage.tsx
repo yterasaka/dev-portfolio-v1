@@ -1,18 +1,14 @@
 import {OptimisticSortOrder} from '@/components/OptimisticSortOrder'
-import {ProjectListItem} from '@/components/ProjectListItem'
+import {ProjectScrollContainer} from '@/components/ProjectScrollContainer'
 import type {HomePageQueryResult} from '@/sanity.types'
 import {studioUrl} from '@/sanity/lib/api'
-import {resolveHref} from '@/sanity/lib/utils'
 import {createDataAttribute} from 'next-sanity'
-import {draftMode} from 'next/headers'
-import Link from 'next/link'
 
 export interface HomePageProps {
   data: HomePageQueryResult | null
 }
 
 export async function HomePage({data}: HomePageProps) {
-  // Default to an empty object to allow previews on non-existent documents
   const {overview = [], showcaseProjects = [], title = ''} = data ?? {}
 
   const dataAttribute =
@@ -24,29 +20,18 @@ export async function HomePage({data}: HomePageProps) {
         })
       : null
 
+  const projectsWithDataAttributes =
+    showcaseProjects?.map((project) => ({
+      ...project,
+      dataAttributeValue: dataAttribute?.(['showcaseProjects', {_key: project._key}]),
+    })) || []
+
   return (
-    <div className="space-y-20">
+    <div className="flex items-center min-h-[calc(100vh-theme(spacing.16))]">
       {/* Showcase projects */}
-      <div className="">
+      <div className="flex overflow-x-auto overflow-y-hidden gap-1 pb-4 scroll-smooth scrollbar-hide select-none w-full">
         <OptimisticSortOrder id={data?._id} path={'showcaseProjects'}>
-          {showcaseProjects &&
-            showcaseProjects.length > 0 &&
-            showcaseProjects.map((project) => {
-              const href = resolveHref(project?._type, project?.slug)
-              if (!href) {
-                return null
-              }
-              return (
-                <Link
-                  className="flex flex-col gap-x-5 p-2 transition odd:border-b odd:border-t hover:bg-gray-50/50 xl:flex-row odd:xl:flex-row-reverse"
-                  key={project._key}
-                  href={href}
-                  data-sanity={dataAttribute?.(['showcaseProjects', {_key: project._key}])}
-                >
-                  <ProjectListItem project={project as any} />
-                </Link>
-              )
-            })}
+          <ProjectScrollContainer showcaseProjects={projectsWithDataAttributes} />
         </OptimisticSortOrder>
       </div>
     </div>
