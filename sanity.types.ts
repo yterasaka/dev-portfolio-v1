@@ -144,6 +144,7 @@ export type Project = {
   role?: string
   type?: string
   tags?: Array<string>
+  year?: number
 }
 
 export type Page = {
@@ -405,7 +406,7 @@ export type AllSanitySchemaTypes =
 export declare const internalGroqTypeReferenceTo: unique symbol
 // Source: ./sanity/lib/queries.ts
 // Variable: homePageQuery
-// Query: *[_type == "home"][0]{    _id,    _type,    overview,    showcaseProjects[]{      _key,      ...@->{        _id,        _type,        coverImage,        overview,        "slug": slug.current,        tags,        title,      }    },    title,  }
+// Query: *[_type == "home"][0]{    _id,    _type,    overview,    showcaseProjects[]{      _key,      ...@->{        _id,        _type,        coverImage,        overview,        role,        site,        "slug": slug.current,        tags,        title,        type,        year      }    },    title,  }
 export type HomePageQueryResult = {
   _id: string
   _type: 'home'
@@ -444,9 +445,13 @@ export type HomePageQueryResult = {
       _type: 'image'
     } | null
     overview: null
+    role: string | null
+    site: string | null
     slug: string | null
     tags: Array<string> | null
     title: string | null
+    type: string | null
+    year: number | null
   }> | null
   title: string | null
 } | null
@@ -512,7 +517,7 @@ export type PagesBySlugQueryResult = {
   }> | null
 } | null
 // Variable: projectBySlugQuery
-// Query: *[_type == "project" && slug.current == $slug][0] {    _id,    _type,    client,    coverImage,    description,    duration,    overview,    role,    site,    "slug": slug.current,    tags,    title,    type  }
+// Query: *[_type == "project" && slug.current == $slug][0] {    _id,    _type,    client,    coverImage,    description,    // duration,    overview,    role,    site,    "slug": slug.current,    tags,    title,    type,    year  }
 export type ProjectBySlugQueryResult = {
   _id: string
   _type: 'project'
@@ -543,7 +548,6 @@ export type ProjectBySlugQueryResult = {
     _type: 'block'
     _key: string
   }> | null
-  duration: null
   overview: null
   role: string | null
   site: string | null
@@ -551,6 +555,7 @@ export type ProjectBySlugQueryResult = {
   tags: Array<string> | null
   title: string | null
   type: string | null
+  year: number | null
 } | null
 // Variable: settingsQuery
 // Query: *[_type == "settings"][0]{    _id,    _type,    footer,    headerTitle,    headerSubTitle,    menuItems[]{      _key,      ...@->{        _type,        "slug": slug.current,        title      }    },    ogImage,  }
@@ -618,9 +623,9 @@ export type SlugsByTypeQueryResult = Array<{
 
 declare module '@sanity/client' {
   interface SanityQueries {
-    '\n  *[_type == "home"][0]{\n    _id,\n    _type,\n    overview,\n    showcaseProjects[]{\n      _key,\n      ...@->{\n        _id,\n        _type,\n        coverImage,\n        overview,\n        "slug": slug.current,\n        tags,\n        title,\n      }\n    },\n    title,\n  }\n': HomePageQueryResult
+    '\n  *[_type == "home"][0]{\n    _id,\n    _type,\n    overview,\n    showcaseProjects[]{\n      _key,\n      ...@->{\n        _id,\n        _type,\n        coverImage,\n        overview,\n        role,\n        site,\n        "slug": slug.current,\n        tags,\n        title,\n        type,\n        year\n      }\n    },\n    title,\n  }\n': HomePageQueryResult
     '\n  *[_type == "page" && slug.current == $slug][0] {\n    _id,\n    _type,\n    overview,\n    title,\n    "slug": slug.current,\n    contentSections[]{\n      _key,\n      sectionTitle,\n      content\n    }\n  }\n': PagesBySlugQueryResult
-    '\n  *[_type == "project" && slug.current == $slug][0] {\n    _id,\n    _type,\n    client,\n    coverImage,\n    description,\n    duration,\n    overview,\n    role,\n    site,\n    "slug": slug.current,\n    tags,\n    title,\n    type\n  }\n': ProjectBySlugQueryResult
+    '\n  *[_type == "project" && slug.current == $slug][0] {\n    _id,\n    _type,\n    client,\n    coverImage,\n    description,\n    // duration,\n    overview,\n    role,\n    site,\n    "slug": slug.current,\n    tags,\n    title,\n    type,\n    year\n  }\n': ProjectBySlugQueryResult
     '\n  *[_type == "settings"][0]{\n    _id,\n    _type,\n    footer,\n    headerTitle,\n    headerSubTitle,\n    menuItems[]{\n      _key,\n      ...@->{\n        _type,\n        "slug": slug.current,\n        title\n      }\n    },\n    ogImage,\n  }\n': SettingsQueryResult
     '\n  *[_type == $type && defined(slug.current)]{"slug": slug.current}\n': SlugsByTypeQueryResult
   }

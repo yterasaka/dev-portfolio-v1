@@ -95,6 +95,11 @@ export default defineType({
         layout: 'tags',
       },
     }),
+    defineField({
+      name: 'year',
+      title: 'Year',
+      type: 'number',
+    }),
   ],
   preview: {
     select: {

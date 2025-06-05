@@ -12,9 +12,13 @@ export const homePageQuery = defineQuery(`
         _type,
         coverImage,
         overview,
+        role,
+        site,
         "slug": slug.current,
         tags,
         title,
+        type,
+        year
       }
     },
     title,
@@ -43,14 +47,15 @@ export const projectBySlugQuery = defineQuery(`
     client,
     coverImage,
     description,
-    duration,
+    // duration,
     overview,
     role,
     site,
     "slug": slug.current,
     tags,
     title,
-    type
+    type,
+    year
   }
 `)
 

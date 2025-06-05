@@ -50,7 +50,7 @@ export function ProjectScrollContainer({showcaseProjects}: ProjectScrollContaine
   }, [])
 
   // 3Dモードの切り替えボタン（オプション）
-  const toggle3D = () => setUse3D(!use3D)
+  // const toggle3D = () => setUse3D(!use3D)
 
   // const handleLinkClick = (e: React.MouseEvent) => {
   //   if (isDragging && !isMobile) {
