@@ -89,7 +89,8 @@ function ProjectItem({
     // スケールアニメーション（クリック時に拡大）
     easing.damp3(
       ref.current.scale,
-      [clicked === index ? 4.7 : scale[0], clicked === index ? 5 : 4 + y, 1],
+      [clicked === index ? 4.7 : scale[0], clicked === index ? 3.5 : 2.5 + y, 1],
+      // [clicked === index ? 4.7 : scale[0], clicked === index ? 5 : 4 + y, 1],
       0.15,
       delta,
     )
@@ -174,7 +175,8 @@ export default function ProjectItems({projects, w = 0.7, gap = 0.15}: ProjectIte
             key={project._id || `project-${i}`}
             index={i}
             position={[i * xW, 0, 0]}
-            scale={[w, 4, 1]}
+            scale={[w, 2, 1]}
+            // scale={[w, 4, 1]}
             project={project}
           />
         ))}
