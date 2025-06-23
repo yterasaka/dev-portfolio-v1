@@ -24,6 +24,10 @@ export default function R3FProjectCanvas({showcaseProjects}: R3FProjectCanvasPro
     state.clicked = null
   }
 
+  // クリックされたプロジェクトの情報を取得
+  const selectedProject = clicked !== null ? showcaseProjects[clicked] : null
+  console.log('Selected Project:', selectedProject)
+
   if (!isClient) {
     return (
       <div className="h-screen w-full flex items-center justify-center">Loading 3D Canvas...</div>
@@ -51,29 +55,22 @@ export default function R3FProjectCanvas({showcaseProjects}: R3FProjectCanvasPro
         </Canvas>
       </Suspense>
 
+      {/* プロジェクト情報表示 */}
+      {selectedProject && (
+        <div className="absolute top-5 left-1/2 -translate-x-1/2 z-[1000] pointer-events-none text-center max-w-[600px] px-5">
+          <h2 className="text-gray-400 text-3xl font-bold mb-4">{selectedProject.title}</h2>
+          <p>
+            {selectedProject.year} | {selectedProject.type} | {selectedProject.role}
+          </p>
+        </div>
+      )}
+
       {/* 3D空間の外に配置された戻るボタン */}
       {clicked !== null && (
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '32px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 1000,
-            pointerEvents: 'auto',
-          }}
-        >
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto">
           <button
             onClick={handleBack}
-            style={{
-              padding: '8px 16px',
-              color: '#aaaaaa',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontFamily: 'inherit',
-              transition: 'all 0.2s ease',
-            }}
+            className="px-4 py-2 text-gray-400 rounded cursor-pointer text-sm transition-all duration-200 hover:bg-gray-700"
           >
             <div className="flex items-center gap-2">
               <MdOutlineArrowBack />

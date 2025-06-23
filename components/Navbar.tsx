@@ -29,7 +29,6 @@ export function Navbar(props: NavbarProps) {
       <Link href="/" className="flex-1" data-sanity={dataAttribute?.('title')}>
         {data?.headerTitle}
       </Link>
-      <div className="hidden md:block flex-1 text-center">{data?.headerSubTitle}</div>
       <div className="flex-1 text-right">
         <OptimisticSortOrder id={data?._id!} path="menuItems">
           {data?.menuItems?.map((menuItem) => {
