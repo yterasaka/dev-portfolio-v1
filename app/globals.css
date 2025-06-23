@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #ececec;
-  --foreground: #262523;
+  --background: #1a1a1a;
+  --foreground: #aaaaaa;
+  /* --foreground: #ececec; */
   --foreground-light: #c7c7c7;
+  /* --background: #ececec;
+  --foreground: #262523;
+  --foreground-light: #c7c7c7; */
 }
 
 body {

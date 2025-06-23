@@ -4,6 +4,8 @@ import {state} from '@/lib/state'
 import type {ShowcaseProject} from '@/types'
 import {Canvas} from '@react-three/fiber'
 import {Suspense, useEffect, useState} from 'react'
+import {MdOutlineArrowBack, MdOutlineArrowDownward} from 'react-icons/md'
+import {useSnapshot} from 'valtio'
 import ProjectItems from './ProjectItems'
 
 interface R3FProjectCanvasProps {
@@ -12,10 +14,15 @@ interface R3FProjectCanvasProps {
 
 export default function R3FProjectCanvas({showcaseProjects}: R3FProjectCanvasProps) {
   const [isClient, setIsClient] = useState(false)
+  const {clicked} = useSnapshot(state)
 
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+  const handleBack = () => {
+    state.clicked = null
+  }
 
   if (!isClient) {
     return (
@@ -43,6 +50,38 @@ export default function R3FProjectCanvas({showcaseProjects}: R3FProjectCanvasPro
           <ProjectItems projects={showcaseProjects} />
         </Canvas>
       </Suspense>
+
+      {/* 3D空間の外に配置された戻るボタン */}
+      {clicked !== null && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '32px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 1000,
+            pointerEvents: 'auto',
+          }}
+        >
+          <button
+            onClick={handleBack}
+            style={{
+              padding: '8px 16px',
+              color: '#aaaaaa',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontFamily: 'inherit',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <MdOutlineArrowBack />
+              Back
+            </div>
+          </button>
+        </div>
+      )}
     </div>
   )
 }

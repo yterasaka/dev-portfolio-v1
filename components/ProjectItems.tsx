@@ -10,55 +10,6 @@ import {useRef, useState} from 'react'
 import * as THREE from 'three'
 import {useSnapshot} from 'valtio'
 
-function BackButton() {
-  const {height} = useThree((state) => state.viewport)
-  const {clicked} = useSnapshot(state)
-
-  // クリックされていない場合は表示しない
-  if (clicked === null) {
-    return null
-  }
-
-  const handleBack = () => {
-    state.clicked = null
-  }
-
-  return (
-    <Html
-      position={[0, -height / 2 + 0.6, 0]} // ミニマップと同じ位置
-      center
-      style={{
-        pointerEvents: 'auto',
-        zIndex: 1000,
-      }}
-    >
-      <button
-        onClick={handleBack}
-        style={{
-          padding: '8px 16px',
-          backgroundColor: '#333',
-          color: '#aaaaaa',
-          // color: '#ececec',
-          border: '1px solid #555',
-          borderRadius: '4px',
-          cursor: 'pointer',
-          fontSize: '14px',
-          fontFamily: 'inherit',
-          transition: 'all 0.2s ease',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#555'
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = '#333'
-        }}
-      >
-        ← Back
-      </button>
-    </Html>
-  )
-}
-
 function Minimap() {
   const ref = useRef<THREE.Group>(null!)
   const scroll = useScroll()
@@ -269,7 +220,7 @@ export default function ProjectItems({projects, w = 0.7, gap = 0.15}: ProjectIte
       }}
     >
       <Minimap />
-      <BackButton /> {/* 戻るボタンを追加 */}
+      <BackgroundBlocker /> {/* 背景クリックをブロック */}
       <Scroll>
         {projects.map((project, i) => (
           <ProjectItem
