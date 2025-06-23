@@ -25,7 +25,6 @@ export default function R3FProjectCanvas({showcaseProjects}: R3FProjectCanvasPro
 
   return (
     <div className="h-[calc(100vh-theme(spacing.16))] w-full">
-      {/* <div className="h-screen w-full"> */}
       <Suspense
         fallback={
           <div className="h-screen w-full flex items-center justify-center">
@@ -38,7 +37,7 @@ export default function R3FProjectCanvas({showcaseProjects}: R3FProjectCanvasPro
           onPointerMissed={() => (state.clicked = null)}
           camera={{position: [0, 0, 5]}}
         >
-          <color attach="background" args={['#ececec']} />
+          <color attach="background" args={['#1A1A1A']} />
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} />
           <ProjectItems projects={showcaseProjects} />
